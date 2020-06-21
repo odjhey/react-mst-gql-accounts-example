@@ -10,8 +10,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 // This auth link will inject the token in the headers on every request you make using apollo client
 const authLink = accountsLink(() => accountsClient)
 
+const { REACT_APP_ACCOUNTS_SERVER_URI } = process.env
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: REACT_APP_ACCOUNTS_SERVER_URI,
 })
 
 const apolloClient = new ApolloClient({
