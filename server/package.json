@@ -7,7 +7,8 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon -w src -x ts-node src/index.ts",
     "build": "tsc",
-    "test": "yarn build"
+    "test": "yarn build",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\""
   },
   "dependencies": {
     "@accounts/database-manager": "^0.27.0",
@@ -29,6 +30,7 @@
     "@types/mongoose": "5.7.16",
     "@types/node": "14.0.13",
     "nodemon": "2.0.3",
+    "prettier": "^2.0.5",
     "ts-node": "8.10.1",
     "typescript": "3.8.3"
   }
