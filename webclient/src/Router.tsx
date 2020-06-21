@@ -1,14 +1,14 @@
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { CssBaseline, Grid, Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import React from 'react'
+import { BrowserRouter, Route } from 'react-router-dom'
+import { CssBaseline, Grid, Paper } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
-import Signup from './Signup';
-import Login from './Login';
-import Home from './Home';
-import ResetPassword from './ResetPassword';
-import VerifyEmail from './VerifyEmail';
-import TwoFactor from './TwoFactor';
+import Signup from './Signup'
+import Login from './Login'
+import Home from './Home'
+import ResetPassword from './ResetPassword'
+import VerifyEmail from './VerifyEmail'
+import TwoFactor from './TwoFactor'
 
 const useStyles = makeStyles({
   root: {
@@ -19,10 +19,10 @@ const useStyles = makeStyles({
   container: {
     padding: 16,
   },
-});
+})
 
 const Router = () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <BrowserRouter>
@@ -42,7 +42,7 @@ const Router = () => {
         </Grid>
       </Grid>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default Router;
+export default Router

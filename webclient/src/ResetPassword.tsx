@@ -1,51 +1,58 @@
-import React, { useState } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
-import { FormControl, InputLabel, Input, Button, Typography, Snackbar } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState } from 'react'
+import { RouteComponentProps, Link } from 'react-router-dom'
+import {
+  FormControl,
+  InputLabel,
+  Input,
+  Button,
+  Typography,
+  Snackbar,
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
-import { accountsGraphQL } from './utils/accounts';
-import FormError from './components/FormError';
+import { accountsGraphQL } from './utils/accounts'
+import FormError from './components/FormError'
 
 const useStyles = makeStyles({
   formContainer: {
     display: 'flex',
     flexDirection: 'column',
   },
-});
+})
 
-const LogInLink = (props: any) => <Link to="/login" {...props} />;
+const LogInLink = (props: any) => <Link to="/login" {...props} />
 
 interface RouteMatchProps {
-  token: string;
+  token: string
 }
 
 const ResetPassword = ({ match }: RouteComponentProps<RouteMatchProps>) => {
-  const classes = useStyles();
-  const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const classes = useStyles()
+  const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [email, setEmail] = useState('')
+  const [newPassword, setNewPassword] = useState('')
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setSnackbarMessage(null);
-    const token = match.params.token;
+    e.preventDefault()
+    setError(null)
+    setSnackbarMessage(null)
+    const token = match.params.token
     try {
       // If no tokens send email to user
       if (!token) {
-        await accountsGraphQL.sendResetPasswordEmail(email);
-        setSnackbarMessage('Email sent');
+        await accountsGraphQL.sendResetPasswordEmail(email)
+        setSnackbarMessage('Email sent')
       } else {
         // If token try to change user password
-        await accountsGraphQL.resetPassword(token, newPassword);
-        setSnackbarMessage('Your password has been reset successfully');
+        await accountsGraphQL.resetPassword(token, newPassword)
+        setSnackbarMessage('Your password has been reset successfully')
       }
     } catch (err) {
-      setError(err.message);
-      setSnackbarMessage(null);
+      setError(err.message)
+      setSnackbarMessage(null)
     }
-  };
+  }
 
   return (
     <form onSubmit={onSubmit} className={classes.formContainer}>
@@ -55,7 +62,11 @@ const ResetPassword = ({ match }: RouteComponentProps<RouteMatchProps>) => {
       {!match.params.token && (
         <FormControl margin="normal">
           <InputLabel htmlFor="email">Email</InputLabel>
-          <Input id="email" value={email} onChange={e => setEmail(e.target.value)} />
+          <Input
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </FormControl>
       )}
       {match.params.token && (
@@ -65,7 +76,7 @@ const ResetPassword = ({ match }: RouteComponentProps<RouteMatchProps>) => {
             id="new-password"
             type="password"
             value={newPassword}
-            onChange={e => setNewPassword(e.target.value)}
+            onChange={(e) => setNewPassword(e.target.value)}
           />
         </FormControl>
       )}
@@ -85,7 +96,7 @@ const ResetPassword = ({ match }: RouteComponentProps<RouteMatchProps>) => {
         message={<span>{snackbarMessage}</span>}
       />
     </form>
-  );
-};
+  )
+}
 
-export default ResetPassword;
+export default ResetPassword

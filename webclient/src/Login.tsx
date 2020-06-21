@@ -1,42 +1,42 @@
-import React, { useState } from "react";
-import { RouteComponentProps, Link, useHistory } from "react-router-dom";
+import React, { useState } from 'react'
+import { RouteComponentProps, Link, useHistory } from 'react-router-dom'
 import {
   FormControl,
   InputLabel,
   Input,
   Button,
   Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
-import { accountsPassword } from "./utils/accounts";
-import FormError from "./components/FormError";
+import { accountsPassword } from './utils/accounts'
+import FormError from './components/FormError'
 
 const useStyles = makeStyles({
   formContainer: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
-});
+})
 
 const SignUpLink = React.forwardRef<Link, any>((props, ref) => (
   <Link to="/signup" {...props} ref={ref} />
-));
+))
 const ResetPasswordLink = React.forwardRef<Link, any>((props, ref) => (
   <Link to="/reset-password" {...props} ref={ref} />
-));
+))
 
 const Login = (props: RouteComponentProps<{}>) => {
-  const classes = useStyles();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [code, setCode] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  let history = useHistory();
+  const classes = useStyles()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [code, setCode] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  let history = useHistory()
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
+    e.preventDefault()
+    setError(null)
     try {
       await accountsPassword.login({
         user: {
@@ -44,13 +44,13 @@ const Login = (props: RouteComponentProps<{}>) => {
         },
         password,
         code,
-      });
-      console.log("history push");
-      history.push("/");
+      })
+      console.log('history push')
+      history.push('/')
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     }
-  };
+  }
 
   return (
     <form onSubmit={onSubmit} className={classes.formContainer}>
@@ -89,7 +89,7 @@ const Login = (props: RouteComponentProps<{}>) => {
       <Button component={SignUpLink}>Sign Up</Button>
       <Button component={ResetPasswordLink}>Reset Password</Button>
     </form>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

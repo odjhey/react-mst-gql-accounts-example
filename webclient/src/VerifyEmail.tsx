@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
-import { Button, Typography } from '@material-ui/core';
+import React, { useState, useEffect } from 'react'
+import { RouteComponentProps, Link } from 'react-router-dom'
+import { Button, Typography } from '@material-ui/core'
 
-import { accountsGraphQL } from './utils/accounts';
-import FormError from './components/FormError';
+import { accountsGraphQL } from './utils/accounts'
+import FormError from './components/FormError'
 
 interface RouteMatchProps {
-  token: string;
+  token: string
 }
 
-const HomeLink = (props: any) => <Link to="/" {...props} />;
+const HomeLink = (props: any) => <Link to="/" {...props} />
 
 const VerifyEmail = ({ match }: RouteComponentProps<RouteMatchProps>) => {
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const verifyEmail = async () => {
     try {
-      await accountsGraphQL.verifyEmail(match.params.token);
-      setSuccess(true);
+      await accountsGraphQL.verifyEmail(match.params.token)
+      setSuccess(true)
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     }
-  };
+  }
 
   useEffect(() => {
-    verifyEmail();
+    verifyEmail()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   return (
     <div>
@@ -35,7 +35,7 @@ const VerifyEmail = ({ match }: RouteComponentProps<RouteMatchProps>) => {
       {success && <Typography>Your email has been verified</Typography>}
       <Button component={HomeLink}>Go Home</Button>
     </div>
-  );
-};
+  )
+}
 
-export default VerifyEmail;
+export default VerifyEmail

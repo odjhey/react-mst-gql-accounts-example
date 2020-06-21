@@ -1,39 +1,39 @@
-import React from "react";
-import { RouteComponentProps, Link, Redirect } from "react-router-dom";
-import { Button, Typography } from "@material-ui/core";
-import { useQuery } from "./models";
+import React from 'react'
+import { RouteComponentProps, Link, Redirect } from 'react-router-dom'
+import { Button, Typography } from '@material-ui/core'
+import { useQuery } from './models'
 
-import { accountsClient, apolloClient } from "./utils/accounts";
-import { observer } from "mobx-react";
+import { accountsClient, apolloClient } from './utils/accounts'
+import { observer } from 'mobx-react'
 
 const Home = ({ history }: RouteComponentProps<{}>) => {
-  console.log("render home");
-  const { loading, error, data } = useQuery((store) => store.me());
+  console.log('render home')
+  const { loading, error, data } = useQuery((store) => store.me())
 
   const onResendEmail = async () => {
     //await accountsGraphQL.sendVerificationEmail(data.getUser.emails[0].address);
-  };
+  }
 
   const onLogout = async () => {
-    await apolloClient.clearStore();
-    await accountsClient.logout();
-    history.push("/login");
-  };
+    await apolloClient.clearStore()
+    await accountsClient.logout()
+    history.push('/login')
+  }
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
 
   // If user is not logged in we redirect him to the login page
-  console.log("home me", data);
+  console.log('home me', data)
   if (!data || !data.me) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/login" />
   }
 
   //@ts-ignore
-  const { me } = data;
+  const { me } = data
 
-  console.log("emails", me);
-  const email = me.emails ? me.emails[0] : { address: "", verified: false };
+  console.log('emails', me)
+  const email = me.emails ? me.emails[0] : { address: '', verified: false }
 
   return (
     <div>
@@ -42,7 +42,7 @@ const Home = ({ history }: RouteComponentProps<{}>) => {
       <Typography gutterBottom>Email: {email.address}</Typography>
       <Typography gutterBottom>You username is {me.username}</Typography>
       <Typography gutterBottom>
-        You email is {email.verified ? "verified" : "unverified"}
+        You email is {email.verified ? 'verified' : 'unverified'}
       </Typography>
       {!email.verified && (
         <Button onClick={onResendEmail}>Resend verification email</Button>
@@ -54,7 +54,7 @@ const Home = ({ history }: RouteComponentProps<{}>) => {
         Logout
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default observer(Home);
+export default observer(Home)

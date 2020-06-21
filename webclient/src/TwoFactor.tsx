@@ -1,35 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Typography, FormControl, InputLabel, Input } from '@material-ui/core';
-import QRCode from 'qrcode.react';
+import React, { useState, useEffect } from 'react'
+import {
+  Button,
+  Typography,
+  FormControl,
+  InputLabel,
+  Input,
+} from '@material-ui/core'
+import QRCode from 'qrcode.react'
 
-import { accountsGraphQL } from './utils/accounts';
+import { accountsGraphQL } from './utils/accounts'
 
 const TwoFactor = () => {
-  const [secret, setSecret] = useState();
-  const [oneTimeCode, setOneTimeCode] = useState('');
+  const [secret, setSecret] = useState()
+  const [oneTimeCode, setOneTimeCode] = useState('')
 
   const fetchTwoFactorSecret = async () => {
-    const data = await accountsGraphQL.getTwoFactorSecret();
+    const data = await accountsGraphQL.getTwoFactorSecret()
     if (data) {
-      const { __typename, ...secretFields } = data;
-      setSecret(secretFields);
+      const { __typename, ...secretFields } = data
+      setSecret(secretFields)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchTwoFactorSecret();
-  }, []);
+    fetchTwoFactorSecret()
+  }, [])
 
   const onSetTwoFactor = async () => {
     try {
-      await accountsGraphQL.twoFactorSet(secret, oneTimeCode);
+      await accountsGraphQL.twoFactorSet(secret, oneTimeCode)
     } catch (err) {
-      alert(err.message);
+      alert(err.message)
     }
-  };
+  }
 
   if (!secret) {
-    return null;
+    return null
   }
   return (
     <div>
@@ -44,12 +50,12 @@ const TwoFactor = () => {
         <Input
           id="one-time-code"
           value={oneTimeCode}
-          onChange={e => setOneTimeCode(e.target.value)}
+          onChange={(e) => setOneTimeCode(e.target.value)}
         />
       </FormControl>
       <Button onClick={onSetTwoFactor}>Submit</Button>
     </div>
-  );
-};
+  )
+}
 
-export default TwoFactor;
+export default TwoFactor

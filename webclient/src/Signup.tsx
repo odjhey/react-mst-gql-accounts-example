@@ -1,42 +1,48 @@
-import React, { useState } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
-import { FormControl, InputLabel, Input, Button, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState } from 'react'
+import { RouteComponentProps, Link } from 'react-router-dom'
+import {
+  FormControl,
+  InputLabel,
+  Input,
+  Button,
+  Typography,
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
-import { accountsGraphQL } from './utils/accounts';
-import FormError from './components/FormError';
+import { accountsGraphQL } from './utils/accounts'
+import FormError from './components/FormError'
 
 const useStyles = makeStyles({
   formContainer: {
     display: 'flex',
     flexDirection: 'column',
   },
-});
+})
 
 const LogInLink = React.forwardRef<Link, any>((props, ref) => (
   <Link to="/login" {...props} ref={ref} />
-));
+))
 
 interface UserForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+  firstName: string
+  lastName: string
+  email: string
+  password: string
 }
 
 const Signup = ({ history }: RouteComponentProps<{}>) => {
-  const classes = useStyles();
-  const [error, setError] = useState<string | null>(null);
+  const classes = useStyles()
+  const [error, setError] = useState<string | null>(null)
   const [user, setUser] = useState<UserForm>({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-  });
+  })
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
+    e.preventDefault()
+    setError(null)
     try {
       await accountsGraphQL.createUser({
         email: user.email,
@@ -45,12 +51,12 @@ const Signup = ({ history }: RouteComponentProps<{}>) => {
           firstName: user.firstName,
           lastName: user.lastName,
         },
-      });
-      history.push('/login');
+      })
+      history.push('/login')
     } catch (err) {
-      setError(err.message);
+      setError(err.message)
     }
-  };
+  }
 
   return (
     <form onSubmit={onSubmit} className={classes.formContainer}>
@@ -63,8 +69,8 @@ const Signup = ({ history }: RouteComponentProps<{}>) => {
           id="firstName"
           value={user.firstName}
           onChange={(e) => {
-            const firstName = e.target.value;
-            return setUser((prevState) => ({ ...prevState, firstName }));
+            const firstName = e.target.value
+            return setUser((prevState) => ({ ...prevState, firstName }))
           }}
         />
       </FormControl>
@@ -74,8 +80,8 @@ const Signup = ({ history }: RouteComponentProps<{}>) => {
           id="lastName"
           value={user.lastName}
           onChange={(e) => {
-            const lastName = e.target.value;
-            return setUser((prevState) => ({ ...prevState, lastName }));
+            const lastName = e.target.value
+            return setUser((prevState) => ({ ...prevState, lastName }))
           }}
         />
       </FormControl>
@@ -85,8 +91,8 @@ const Signup = ({ history }: RouteComponentProps<{}>) => {
           id="email"
           value={user.email}
           onChange={(e) => {
-            const email = e.target.value;
-            return setUser((prevState) => ({ ...prevState, email }));
+            const email = e.target.value
+            return setUser((prevState) => ({ ...prevState, email }))
           }}
         />
       </FormControl>
@@ -97,8 +103,8 @@ const Signup = ({ history }: RouteComponentProps<{}>) => {
           type="password"
           value={user.password}
           onChange={(e) => {
-            const password = e.target.value;
-            return setUser((prevState) => ({ ...prevState, password }));
+            const password = e.target.value
+            return setUser((prevState) => ({ ...prevState, password }))
           }}
         />
       </FormControl>
@@ -108,7 +114,7 @@ const Signup = ({ history }: RouteComponentProps<{}>) => {
       {error && <FormError error={error!} />}
       <Button component={LogInLink}>Log In</Button>
     </form>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

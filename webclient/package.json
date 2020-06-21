@@ -6,17 +6,14 @@
     "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "test": "yarn build",
-    "testonly": "yarn build"
+    "testonly": "yarn build",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\""
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -54,6 +51,7 @@
     "@types/react-dom": "16.9.8",
     "@types/react-router": "5.1.7",
     "@types/react-router-dom": "5.1.5",
+    "prettier": "^2.0.5",
     "react-scripts": "3.4.1",
     "typescript": "3.7.5"
   }
