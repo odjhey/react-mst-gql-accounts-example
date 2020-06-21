@@ -1,3 +1,7 @@
+# Purpose
+1. to handle all authentication requirements
+> NOTE: authorization to be handled on a separate package
+
 # TODO
 1. dockerify
 1. setup SMTP server
