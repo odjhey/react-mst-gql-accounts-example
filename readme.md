@@ -1,13 +1,43 @@
 # Purpose
-1. to handle all authentication requirements
-> NOTE: authorization to be handled on a separate package
 
-# TODO
-1. dockerify
+1. to handle all authentication requirements
+   > NOTE: authorization to be handled on a separate package
+
+# How-to
+
+1. add `.env` to server (see `.env.template`)
+1. add `.env` to webclient (see `.env.template`)
+1. start your mongo instance (as per configured `server/.env` `mongoURI`)
+1. start server
+
+   ```
+   cd server
+
+   yarn start
+   or
+   npm run start
+   ```
+
+1. start webclient
+
+   ```
+   cd webclient
+
+   yarn start
+   or
+   npm run start
+   ```
+
+1. visit `localhost:3000`
+
+# Todo
+
+1. containerize
 1. setup SMTP server
 1. add other user info
 
 # Test
+
 1. signup
 1. login
 1. logout
