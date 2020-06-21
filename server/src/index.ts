@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { DatabaseManager } from '@accounts/database-manager'
 import { AccountsModule } from '@accounts/graphql-api'
 import MongoDBInterface from '@accounts/mongo'
@@ -8,14 +9,13 @@ import gql from 'graphql-tag'
 import { mergeResolvers, mergeTypeDefs } from '@graphql-toolkit/schema-merging'
 import mongoose from 'mongoose'
 
+const { mongoURI: db, PORT, authSecret } = process.env
+
 const start = async () => {
   // Create database connection
-  await mongoose.connect(
-    'mongodb://localhost:27017/accounts-js-graphql-example',
-    {
-      useNewUrlParser: true,
-    },
-  )
+  await mongoose.connect(db, {
+    useNewUrlParser: true,
+  })
   const mongoConn = mongoose.connection
 
   // Build a storage for storing users
@@ -41,7 +41,7 @@ const start = async () => {
 
   // Create accounts server that holds a lower level of all accounts operations
   const accountsServer = new AccountsServer(
-    { db: accountsDb, tokenSecret: 'secret', ambiguousErrorMessages: false },
+    { db: accountsDb, tokenSecret: authSecret, ambiguousErrorMessages: false },
     {
       password: accountsPassword,
     },
@@ -118,7 +118,7 @@ const start = async () => {
     context: accountsGraphQL.context,
   })
 
-  server.listen(4000).then(({ url }) => {
+  server.listen(PORT).then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`)
   })
 }
