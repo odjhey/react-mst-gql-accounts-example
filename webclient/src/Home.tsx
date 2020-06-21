@@ -1,54 +1,50 @@
-import React from 'react';
-import { RouteComponentProps, Link, Redirect } from 'react-router-dom';
-import { Button, Typography } from '@material-ui/core';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+import React from "react";
+import { RouteComponentProps, Link, Redirect } from "react-router-dom";
+import { Button, Typography } from "@material-ui/core";
+import { useQuery } from "./models";
 
-import { accountsClient, accountsGraphQL } from './utils/accounts';
-
-const GET_USER_QUERY = gql`
-  query getUser {
-    getUser {
-      id
-      username
-      emails {
-        address
-        verified
-      }
-    }
-  }
-`;
+import { accountsClient, apolloClient } from "./utils/accounts";
+import { observer } from "mobx-react";
 
 const Home = ({ history }: RouteComponentProps<{}>) => {
-  const { loading, error, data } = useQuery(GET_USER_QUERY);
+  console.log("render home");
+  const { loading, error, data } = useQuery((store) => store.me());
 
   const onResendEmail = async () => {
-    await accountsGraphQL.sendVerificationEmail(data.getUser.emails[0].address);
+    //await accountsGraphQL.sendVerificationEmail(data.getUser.emails[0].address);
   };
 
   const onLogout = async () => {
+    await apolloClient.clearStore();
     await accountsClient.logout();
-    history.push('/login');
+    history.push("/login");
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   // If user is not logged in we redirect him to the login page
-  if (!data.getUser) {
+  console.log("home me", data);
+  if (!data || !data.me) {
     return <Redirect to="/login" />;
   }
 
+  //@ts-ignore
+  const { me } = data;
+
+  console.log("emails", me);
+  const email = me.emails ? me.emails[0] : { address: "", verified: false };
+
   return (
     <div>
-      <Typography gutterBottom>Hello {data.getUser.username}</Typography>
+      <Typography gutterBottom>Hello {me.username}</Typography>
       <Typography gutterBottom>You are logged in</Typography>
-      <Typography gutterBottom>Email: {data.getUser.emails[0].address}</Typography>
-      <Typography gutterBottom>You username is {data.getUser.username}</Typography>
+      <Typography gutterBottom>Email: {email.address}</Typography>
+      <Typography gutterBottom>You username is {me.username}</Typography>
       <Typography gutterBottom>
-        You email is {data.getUser.emails[0].verified ? 'verified' : 'unverified'}
+        You email is {email.verified ? "verified" : "unverified"}
       </Typography>
-      {!data.getUser.emails[0].verified && (
+      {!email.verified && (
         <Button onClick={onResendEmail}>Resend verification email</Button>
       )}
 
@@ -61,4 +57,4 @@ const Home = ({ history }: RouteComponentProps<{}>) => {
   );
 };
 
-export default Home;
+export default observer(Home);

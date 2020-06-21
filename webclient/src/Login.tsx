@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RouteComponentProps, Link } from "react-router-dom";
+import { RouteComponentProps, Link, useHistory } from "react-router-dom";
 import {
   FormControl,
   InputLabel,
@@ -26,12 +26,13 @@ const ResetPasswordLink = React.forwardRef<Link, any>((props, ref) => (
   <Link to="/reset-password" {...props} ref={ref} />
 ));
 
-const Login = ({ history }: RouteComponentProps<{}>) => {
+const Login = (props: RouteComponentProps<{}>) => {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
+  let history = useHistory();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
