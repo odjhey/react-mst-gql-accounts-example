@@ -1,7 +1,8 @@
 # Purpose
 
 1. to handle all authentication requirements
-   > NOTE: authorization to be handled on a separate package
+
+> NOTE: authorization to be handled on a separate package
 
 # How-to
 
@@ -28,7 +29,7 @@
    npm run start
    ```
 
-1. visit `localhost:3000`
+1. visit `localhost:3000` on your favorite modern browser
 
 # Todo
 
