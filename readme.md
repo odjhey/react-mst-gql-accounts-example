@@ -6,8 +6,8 @@
 
 # How-to
 
-1. add `.env` to server (see `.env.template`)
-1. add `.env` to webclient (see `.env.template`)
+1. add your `server/.env` (see `server/.env.template`)
+1. add your `webclient/.env` (see `webclient/.env.template`)
 1. start your mongo instance (as per configured `server/.env` `mongoURI`)
 1. start server
 
