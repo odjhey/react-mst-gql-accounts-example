@@ -2,11 +2,9 @@ version: '3'
 services:
 
   solo-auth-mongo-dev:
+    image: mongo
     container_name: solo-auth-mongo-dev
     restart: always
-    build:
-      context: ./server
-      dockerfile: Dockerfile.mongo
     volumes:
       - ./.data:/data/db
 
