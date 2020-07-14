@@ -15,10 +15,10 @@ services:
       context: ./server
       dockerfile: Dockerfile
       args: 
-        EPOD_SERVICE_GIT_REPO: 'git@github.com:odjhey/EPOD_MOBILE.git'
+        GIT_REPO: 'https://github.com/odjhey/react-mst-gql-accounts-example.git'
     command: "node dist/index.js"
     ports:
-      - "3093:8080"
+      - "4093:8080"
     environment: 
       PORT: "8080"
       mongoURI: "mongodb://solo-auth-mongo-dev:27017/auth"
@@ -31,11 +31,10 @@ services:
       context: ./webclient
       dockerfile: Dockerfile
       args: 
-        GIT_URL: 'git@github.com:odjhey/epod-dash.git'
-        REACT_APP_DATAAPI_URI: 'http://decodebase.com:3095/graphql'
-        REACT_APP_EPOD_IMAGE_URI: 'http://decodebase.com:3090'
+        GIT_URL: 'https://github.com/odjhey/react-mst-gql-accounts-example.git'
+        REACT_APP_ACCOUNTS_SERVER_URI: 'http://ftrnd:4093/graphql'
     command: 'node server.js'
     ports:
-      - '3096:8080'
+      - '4096:8080'
     environment:
       PORT: '8080'
