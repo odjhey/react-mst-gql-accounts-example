@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  solo-auth-mongo-dev:
+    container_name: solo-auth-mongo-dev
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile.mongo
+    volumes:
+      - ./.data:/data/db
+
+  solo-auth-server-dev:
+    container_name: solo-auth-server-dev
+    restart: always
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+      args: 
+        EPOD_SERVICE_GIT_REPO: 'git@github.com:odjhey/EPOD_MOBILE.git'
+    command: "node dist/index.js"
+    ports:
+      - "3093:8080"
+    environment: 
+      PORT: "8080"
+      mongoURI: "mongodb://solo-auth-mongo-dev:27017/auth"
+      authSecret: "90adflkj12309uadsfl"
+
+  solo-auth-webui-dev:
+    container_name: solo-auth-webui-dev
+    restart: always
+    build:
+      context: ./webclient
+      dockerfile: Dockerfile
+      args: 
+        GIT_URL: 'git@github.com:odjhey/epod-dash.git'
+        REACT_APP_DATAAPI_URI: 'http://decodebase.com:3095/graphql'
+        REACT_APP_EPOD_IMAGE_URI: 'http://decodebase.com:3090'
+    command: 'node server.js'
+    ports:
+      - '3096:8080'
+    environment:
+      PORT: '8080'
